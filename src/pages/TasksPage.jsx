@@ -1,5 +1,13 @@
+import { Container, Row } from "react-bootstrap";
+
+import CardComponent from '../Components/Card'
+
 export default function TasksPage() {
   return (
-    <div>TasksPage</div>
+    <Container>
+      <Row>
+        <CardComponent title="ejemplo" text='ejemplo'/>
+      </Row>
+    </Container>
   )
 }
