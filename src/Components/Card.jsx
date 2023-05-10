@@ -1,7 +1,10 @@
 /* eslint-disable react/prop-types */
 import { Card, Button, ButtonGroup } from 'react-bootstrap';
+import { useTasks } from '../context/TasksProvider';
 
-export default function CardComponent({ title, text }) {
+export default function CardComponent({ title, text, id }) {
+  const { deleteTask } = useTasks();
+
   return (
     <Card
       border="primary"
@@ -11,14 +14,14 @@ export default function CardComponent({ title, text }) {
       }}
     >
       <Card.Body>
-        <Card.Title>{title}</Card.Title>
+        <Card.Title>{title} </Card.Title>
         <Card.Text>
           {text}
         </Card.Text>
         <ButtonGroup>
-          <Button variant="success">Delete</Button>
-          <Button variant="warning">Delete</Button>
-          <Button variant="danger">Delete</Button>
+          <Button variant="success">Done</Button>
+          <Button variant="warning">Edit</Button>
+          <Button variant="danger" onClick={() => deleteTask(id)}>Delete</Button>
         </ButtonGroup>
       </Card.Body>
     </Card>

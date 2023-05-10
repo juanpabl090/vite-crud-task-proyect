@@ -1,6 +1,7 @@
 import { Form, Formik } from "formik"
 import { Container, Row, Badge, Form as FormBoostrap, Button } from "react-bootstrap";
 import { createTaskRequest } from "../api/tasks.api";
+
 export default function TasksForm() {
   return (
     <Formik
@@ -8,17 +9,16 @@ export default function TasksForm() {
         title: "",
         contentText: "",
       }}
-      onSubmit={async (values) => {
-        console.log(values);
+      onSubmit={async (values, actions) => {
         try {
-          const response = await createTaskRequest(values);
-          console.log(response);
+          await createTaskRequest(values);
+          actions.resetForm();
         } catch (error) {
           console.log(error);
         }
       }}
     >
-      {({ handleChange, handleSubmit }) => (
+      {({ handleChange, handleSubmit, values, isSubmitting }) => (
         <Container className="text-center">
           <Form onSubmit={handleSubmit}>
             <Row>
@@ -27,8 +27,9 @@ export default function TasksForm() {
             <Row>
               <FormBoostrap.Control
                 type="text" name="title" placeholder="Write a title" onChange={handleChange}
+                value={values.title}
               />
-            </Row>  
+            </Row>
             <Row>
               <h4><Badge>Description</Badge></h4>
             </Row>
@@ -37,11 +38,14 @@ export default function TasksForm() {
                 name="contentText"
                 rows='3'
                 placeholder="Write a description"
-                onChange={handleChange}>
+                onChange={handleChange}
+                value={values.contentText}>
               </textarea>
             </Row>
             <Row>
-              <Button type="submit">Save</Button>
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Saving..." : "Save"}
+              </Button>
             </Row>
           </Form>
         </Container>
