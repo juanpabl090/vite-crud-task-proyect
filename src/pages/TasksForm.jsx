@@ -1,8 +1,10 @@
 import { Form, Formik } from "formik"
 import { Container, Row, Badge, Form as FormBoostrap, Button } from "react-bootstrap";
-import { createTaskRequest } from "../api/tasks.api";
-
+import { useTasks } from '../context/TasksProvider';
 export default function TasksForm() {
+
+  const { createTask } = useTasks()
+
   return (
     <Formik
       initialValues={{
@@ -10,12 +12,8 @@ export default function TasksForm() {
         contentText: "",
       }}
       onSubmit={async (values, actions) => {
-        try {
-          await createTaskRequest(values);
-          actions.resetForm();
-        } catch (error) {
-          console.log(error);
-        }
+        createTask(values)
+        actions.resetForm();
       }}
     >
       {({ handleChange, handleSubmit, values, isSubmitting }) => (
