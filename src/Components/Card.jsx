@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
 import { Card, Button, ButtonGroup } from 'react-bootstrap';
 import { useTasks } from '../context/TasksProvider';
+import { useNavigate } from 'react-router-dom';
 
 export default function CardComponent({ title, text, id }) {
   const { deleteTask } = useTasks();
+  const navigate = useNavigate();
 
   return (
     <Card
@@ -19,8 +21,7 @@ export default function CardComponent({ title, text, id }) {
           {text}
         </Card.Text>
         <ButtonGroup>
-          <Button variant="success">Done</Button>
-          <Button variant="warning">Edit</Button>
+          <Button variant="warning" onClick={() => navigate(`/edit/:${id}`)}>Edit</Button>
           <Button variant="danger" onClick={() => deleteTask(id)}>Delete</Button>
         </ButtonGroup>
       </Card.Body>

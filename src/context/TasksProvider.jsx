@@ -1,7 +1,13 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 import { useContext, useState } from 'react'
-import { getTasksRequest, deleteTaskRequest, createTaskRequest } from '../api/tasks.api';
+import {
+  getTasksRequest,
+  deleteTaskRequest,
+  createTaskRequest,
+  getTaskRequest,
+  updateTaskRequest
+} from '../api/tasks.api';
 import { TaskContext } from '../context/TasksContext'
 
 export const useTasks = () => {
@@ -35,10 +41,28 @@ export const TaskContextProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
+
+  const getTask = async (id) => {
+    try {
+      const response = await getTaskRequest(id);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateTask = async (task) => {
+    try {
+      const response = await updateTaskRequest(task);
+      console.log(response)
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <TaskContext.Provider value={{ tasks, loadTask, deleteTask, createTask }}>
+    <TaskContext.Provider value={{ tasks, loadTask, deleteTask, createTask, getTask, updateTask }}>
       {children}
     </TaskContext.Provider>
   );

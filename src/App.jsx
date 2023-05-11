@@ -18,6 +18,7 @@ export default function App() {
           <Routes>
             <Route index path='/' element={<TasksPage />} />
             <Route path='/new' element={<TasksForm />} />
+            <Route path='/edit/:id' element={<TasksForm />} />
 
             <Route path='*' element={<NotFound />} />
           </Routes>
