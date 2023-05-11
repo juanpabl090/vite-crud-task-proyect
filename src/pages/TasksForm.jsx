@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik"
-import { Container, Row, Badge, Form as FormBoostrap, Button } from "react-bootstrap";
+import { Container, Row, Form as FormBoostrap, Button } from "react-bootstrap";
 import { useTasks } from '../context/TasksProvider';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -33,15 +33,17 @@ export default function TasksForm() {
       }
     };
     loadTask();
-  }, [getTask, params.id]);
+  }, [getTask, params]);
 
   const handleCheckboxChange = () => {
     const myCheckbox = document.getElementById('done')
     myCheckbox.addEventListener('change', (event) => {
       if (event.target.checked) {
-        params.done = true;
+        task.done = event.target.checked
+        console.log(task)
       } else {
-        params.done = false;
+        task.done = event.target.checked
+        console.log(task)
       }
     })
   }
@@ -65,7 +67,7 @@ export default function TasksForm() {
           <Container className="text-center">
             <Form onSubmit={handleSubmit}>
               <Row>
-                <h1><Badge>Title</Badge></h1>
+                <h2>Title</h2>
               </Row>
               <Row>
                 <FormBoostrap.Control
@@ -75,12 +77,12 @@ export default function TasksForm() {
               </Row>
               {
                 params.id ? <Row>
-                  <h4><Badge>Done</Badge></h4>
+                  <h2>Done</h2>
                 </Row> : ''
               }
               {
                 params.id ? <label className="switch">
-                  <input type="checkbox" id="done" onClick={handleCheckboxChange} />
+                  <input type="checkbox" id="done" name="done" onClick={handleCheckboxChange} />
                   <div className="slider"></div>
                   <div className="slider-card">
                     <div className="slider-card-face slider-card-front"></div>
@@ -89,7 +91,7 @@ export default function TasksForm() {
                 </label> : ''
               }
               <Row>
-                <h4><Badge>Description</Badge></h4>
+                <h2>Description</h2>
               </Row>
               <Row>
                 <textarea
@@ -101,9 +103,15 @@ export default function TasksForm() {
                 </textarea>
               </Row>
               <Row>
-                <Button type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? "Saving..." : "Save"}
-                </Button>
+                {
+                  params.id
+                    ? <Button type="submit" disabled={isSubmitting} variant="warning">
+                      {isSubmitting ? "Saving..." : "Save"}
+                    </Button>
+                    : <Button type="submit" disabled={isSubmitting} variant="dark">
+                      {isSubmitting ? "Saving..." : "Save"}
+                    </Button>
+                }
               </Row>
             </Form>
           </Container>
